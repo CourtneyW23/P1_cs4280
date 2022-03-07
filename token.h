@@ -6,7 +6,7 @@ using namespace std;
 
 enum TokenName
 {
-    tkERR = 0,tkINT,tkDELI,tkOPRT,tkIDENT,tkUNKN,tkWSP, tkEOF, tkKEY
+    tkERR,tkINT,tkDELI,tkOPRT,tkIDENT,tkCERR,tkWSP, tkEOF, tkKEY
 };
 
 //struct to hold token information

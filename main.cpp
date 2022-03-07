@@ -13,15 +13,20 @@ using namespace std;
 //Driver function
 int main(int argc,  char* argv[])
 {
-
-    	int opt;
 	string fileName;
 	ifstream file;
 	
 	fileName = argv[1];
 	file.open(fileName.c_str(), ios::in);
-
+	
+	if(file.fail())
+    	{
+        	cout<<"\n** ERROR - the file \""<<fileName<<"\" cannot be found!\n\n";
+        	exit(1);
+    	}
 	printScanner(file);
-	return 0;
+
+	file.close();	
+return 0;
 }
 
