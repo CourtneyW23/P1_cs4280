@@ -11,3 +11,4 @@ main.o: main.cpp
 	$(GCC) $(CFLAGS) -c main.cpp
 
 clean: 
+	rm *.o scanner 

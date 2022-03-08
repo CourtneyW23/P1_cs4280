@@ -76,6 +76,7 @@ string getName(int lexeme) {
         case tkWSP:
             return "WhiteSpace:";
             break;
+	
         default:
             return "SCANNER ERROR";
             break;
@@ -184,7 +185,11 @@ void printScanner(ifstream& file) {
         {"declare", tkKEY, "Keyword:"},
         {"assign", tkKEY, "Keyword:"},
         {"proc", tkKEY, "Keyword:"}
-};
+     };
+	
+     TokenType eof = {"EOF", tkEOF, "End Of File:"};
+
+
     string fileName;
     vector<TokenType> tokens;
     int lineCount = 0;
@@ -223,6 +228,12 @@ void printScanner(ifstream& file) {
                 		cout << "SCANNER ERROR: char size > 8: " << setw(5)
                      		<< tokens[x].token << setw(5)
                      		<< "line: " << lineCount << endl;
+            		}
+			else if(tokens[x].token.find(eof.token, 0) != string::npos ){
+                		tokens[x].lexemeName = eof.lexemeName;
+                		cout <<  tokens[x].lexemeName << setw(10)
+                     		<< right << tokens[x].token  << setw(10)
+                     		<< right << "line: " << lineCount << endl;
             		}
             		else
                 		cout << tokens[x].lexemeName << setw(10)
