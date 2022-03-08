@@ -10,3 +10,4 @@ scanner.o: scanner.cpp scanner.h
 main.o: main.cpp
 	$(GCC) $(CFLAGS) -c main.cpp
 
+clean: 

@@ -8,5 +8,5 @@ using namespace std;
 int getChar(char);
 string getName(int);
 vector<TokenType> Scanner(string);
-string removeComments(string);
+string checkComments(string);
 void printScanner(ifstream&);

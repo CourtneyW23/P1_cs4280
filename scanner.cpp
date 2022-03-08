@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <cstdlib>
 #include <string>
 #include <fstream>
@@ -70,7 +71,7 @@ string getName(int lexeme) {
             return "Identifier:";
             break;
         case tkCERR:
-            return "SCANNER ERROR: char:";
+            return "SCANNER ERROR: Unknown Token:";
             break;
         case tkWSP:
             return "WhiteSpace:";
@@ -128,7 +129,7 @@ vector<TokenType> Scanner(string expression)
     return tokens;
 }
 
-string removeComments(string expression)
+string checkComments(string expression)
 {
     string currentToken;
 
@@ -143,18 +144,21 @@ string removeComments(string expression)
 	if  (multiComm == true && expression[i] == '#' && expression[i+1] == '#')
             multiComm = false,  i++;
 
-        else if ( singleComm || multiComm)
-            continue;
-
-        else if (expression[i] == '#' && expression[i+1] == '#')
+	else if (expression[i] == '#' && expression[i+1] == '#')
             singleComm = true,  i++;
 	
 	else if (expression[i] == '#' && expression[i+1] == '#')
             multiComm = true,  i++;
+	 
+	else if ( singleComm || multiComm)
+                continue;
 
         else  currentToken += expression[i];
     }
-    return currentToken;
+	if ( singleComm || multiComm)
+            cout << "Comment: "<< expression << endl;
+    
+	return currentToken;
 }
 
 
@@ -190,7 +194,7 @@ void printScanner(ifstream& file) {
     while (getline(file, expression)) {
         lineCount++;
 	// use the "Scanner" function to isolate tokens
-	tokens = Scanner(removeComments(expression));
+	tokens = Scanner(checkComments(expression));
 	for (unsigned x = 0; x < tokens.size(); ++x) {
             //check if position is -1 or not
  		if (tokens[x].token.find(keywords[0].token, 0) != string::npos ||
@@ -209,21 +213,22 @@ void printScanner(ifstream& file) {
                 	tokens[x].token.find(keywords[13].token, 0) != string::npos ||
                 	tokens[x].token.find(keywords[14].token, 0) != string::npos ||
                 	tokens[x].token.find(keywords[15].token, 0) != string::npos ||
-                	tokens[x].token.find(keywords[16].token, 0) != string::npos )  {
-                tokens[x].lexemeName = keywords[x].lexemeName;
-                cout << tokens[x].lexemeName << "\t"
-                     << tokens[x].token  << "\t"
-                     << "line: " << lineCount << endl;
-            }
-            else if (tokens[x].token.size() > 8) {
-                cout << "SCANNER ERROR: IDENTIFIER char size > 8: " << "\t"
-                     << tokens[x].token << "\t"
-                     << "line: " << lineCount << endl;
-            }
-            else
-                cout << tokens[x].lexemeName << "\t"
-                     << tokens[x].token << "\t"
-                     << "line: " << lineCount << endl;
-        }
+                	tokens[x].token.find(keywords[16].token, 0) != string::npos ){
+                		tokens[x].lexemeName = keywords[x].lexemeName;
+                		cout << tokens[x].lexemeName << setw(10)
+                     		<< tokens[x].token  << setw(10)
+                     		<< "line: " << lineCount << endl;
+            		}
+            		else if (tokens[x].token.size() > 8) {
+                		cout << "SCANNER ERROR: char size > 8: " << setw(5)
+                     		<< tokens[x].token << setw(5)
+                     		<< "line: " << lineCount << endl;
+            		}
+            		else
+                		cout << tokens[x].lexemeName << setw(10)
+                     		<< tokens[x].token << setw(10)
+                     		<< "line: " << lineCount << endl;
+        		}
     }
-}
+
+}		
